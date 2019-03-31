@@ -1,0 +1,39 @@
+type User {
+    _id: String!
+    username: String
+    emails: [Email]
+    status: String
+    phone: String
+    organisations: [Organisations]
+    subscription: Subscription
+    createdAt: String
+}
+
+type Email {
+    address: String
+    verified: Boolean
+}
+
+type Organisations {
+    _id: String
+}
+
+type Subscription {
+    _id: String
+    collection: String
+}
+
+input UserDatas {
+    username: String
+    emails: String
+    phone: String
+}
+
+type Mutation {
+    registerUser(email: String!, pass: String!, phone: String = null): User
+    updateUser(_id: String!, datas: UserDatas!): User
+}
+
+type Query {
+    getUser(_id: String!): User
+}

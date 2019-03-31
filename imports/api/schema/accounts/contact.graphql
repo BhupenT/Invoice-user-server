@@ -1,0 +1,98 @@
+type Contact {
+    _id: String!
+    contact_details: ContactDetails
+    contact_roles: ContactRoles
+    status: Status
+    title: String
+    category: [String]
+    contacts: ContactGroup
+    createdAt: String
+}
+
+type ContactDetails {
+    first_name: String!
+    last_name: String!
+    custom_group: String
+}
+
+type ContactRoles {
+    name: String!
+    title: String
+    capabilities: Capabilities
+}
+
+type Capabilities {
+    system_settings: [String]
+    invoice_modules: [String]
+}
+
+type ContactGroup {
+    aioms_id: String
+    main: ContactCard
+}
+
+type ContactCard implements MainContact {
+    name: String
+    address: ContactAddress
+    email_address: String
+    phone: String
+    website: String
+}
+
+type ContactAddress implements Address {
+    country: String
+    suburb: String
+    state: String
+    address: String
+    zip_code: Int
+    custom_group: String
+}
+
+input ContactInputs {
+    contact_details: ContactDetailsInput!
+    contact_roles: ContactRolesInput
+    title: String
+    category: [String]
+    contacts: ContactInput!
+}
+
+input ContactUpdateInputs {
+    contact_details: ContactDetailsInput
+    contact_roles: ContactRolesInput
+    status: StatusInput
+    title: String
+    category: [String]
+    contacts: ContactInput
+    register: Boolean = false
+}
+
+input ContactRolesInput {
+    name: String!
+    title: String
+    capabilities: CapabilitiesInput
+}
+
+input CapabilitiesInput {
+    system_settings: [String]
+    invoice_modules: [String]
+}
+
+input ContactDetailsInput {
+    first_name: String!
+    last_name: String!
+    custom_group: String
+}
+
+extend input ContactInput {
+    aioms_id: String
+}
+
+extend type Mutation {
+    createContact(org_id: String!, datas: ContactInputs!): Contact
+    updateContact(contact_id: String!, datas: ContactUpdateInputs!): Contact
+}
+
+extend type Query {
+    getContact(contact_id: String!): Contact
+    getContacts(org_id: String!): [Contact]
+}

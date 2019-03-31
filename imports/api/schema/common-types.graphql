@@ -1,0 +1,20 @@
+interface MainContact {
+    name: String
+    email_address: String
+    phone: String
+    website: String
+}
+
+interface Address {
+    country: String
+    suburb: String
+    state: String
+    address: String
+    zip_code: Int
+    custom_group: String
+}
+
+type Status {
+    _id: String!
+    status: String!
+}

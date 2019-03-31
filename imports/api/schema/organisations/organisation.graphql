@@ -1,0 +1,90 @@
+type Organisation {
+    _id: String!
+    name: String
+    licences: [Licence]
+    aioms_id: String
+    contacts: OrgContactGroup
+    custom_groups: [String]
+    collections: Collection
+    active_modules: [Module]
+    createdAt: String
+}
+
+type Licence {
+    name: String
+    lic_key: String
+}
+
+type OrgContactGroup {
+    main: OrgContact
+    custom_groups: [String]
+}
+
+type OrgContact implements MainContact {
+    name: String
+    email_address: String
+    phone: String
+    website: String
+    address: OrgAddress
+    extras: Extras
+}
+
+type OrgAddress implements Address {
+    country: String
+    suburb: String
+    state: String
+    address: String
+    zip_code: Int
+    custom_group: String
+}
+
+type Extras {
+    emails: [String]
+    phones: [String]
+}
+
+type Collection {
+    custom_group: String
+    categories: String
+    users_data: String
+    modules: [Module]
+}
+
+type Module {
+    _id: String
+}
+
+input LicenceInputData {
+    name: String!
+    lic_key: String!
+}
+
+input OrgContactInput {
+    main: MainContactInput
+    custom_groups: [String]
+}
+
+extend input MainContactInput {
+    extras: ExtraInput
+}
+
+input ExtraInput {
+    emails: [String]
+    phones: [String]
+}
+
+input OrganInputDatas {
+    name: String
+    generate_aioms_id: Boolean = false
+    licences: [LicenceInputData]
+    contacts: OrgContactInput
+}
+
+extend type Mutation {
+    addOrganisation(user_id: String!, datas: OrganInputDatas): Organisation!
+    updateOrganisation(org_id: String!, datas: OrganInputDatas): Organisation!
+}
+
+extend type Query {
+    getOrganisation(_id: String!): Organisation
+}

@@ -1,0 +1,25 @@
+input ContactInput {
+    main: MainContactInput
+}
+
+input MainContactInput {
+    name: String
+    address: AddressInput
+    email_address: String!
+    phone: String
+    website: String
+}
+
+input AddressInput {
+    country: String
+    suburb: String
+    state: String
+    address: String
+    zip_code: Int
+    custom_group: String
+}
+
+input StatusInput {
+    _id: String!
+    status: String!
+}
