@@ -41,16 +41,7 @@ const UsersAccount = {
                 aioms_id: Random.id()
             });
 
-            UsersData.insert(
-                { 
-                    contacts: {
-                        main: {
-                            email_address: email
-                        }
-                    },
-                    status: 'inactive'
-                }
-            ); // Userdatas
+            UsersData.insert({user_id: userId}); // Userdatas
 
             Users.upsert(userId, { // User global
                 $set: {
@@ -77,6 +68,7 @@ const UsersAccount = {
     },
 
     UpdateUser: function(_id, datas) {
+
         const User = UsersAccount.GetUser(_id);
 
         if(datas.username !== undefined) {
@@ -84,6 +76,7 @@ const UsersAccount = {
         }
 
         if(datas.emails !== undefined) {
+
             const currentEmail = User.emails[0].address;
 
             if(currentEmail != datas.emails) {
@@ -95,29 +88,17 @@ const UsersAccount = {
                 */
                 Accounts.removeEmail(User._id, currentEmail);
 
-                /* update many matched owners datas
-                 * and of all the organisationsUserDatas
-                 */
-
-                UsersData.update({'contacts.main.email_address': currentEmail}, {
-                    $set: {
-                        contacts: {
-                            main: {
-                                email_address: datas.emails
-                            }
-                        }
-                    }
-                });
-
             }
         }
 
         if(datas.phone !== undefined) {
+
             Users.upsert(User._id, {
                 $set: {
                     phone: datas.phone
                 }
             });
+
         }
 
         return UsersAccount.GetUser(User._id);

@@ -1,0 +1,23 @@
+union CustomData = CustomNumber | CustomString
+
+type CustomGroup {
+    _id: String!
+    org_id: String!
+    template_id: String
+    title: String!
+    datas: [CustomData]
+}
+
+type CustomNumber {
+    name: String
+    value: Int
+}
+
+type CustomString {
+    name: String
+    field: String
+}
+
+extend type Query {
+    getCustomGroup(_id: String!, org_id: String!): CustomGroup
+}

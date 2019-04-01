@@ -9,6 +9,12 @@ type Contact {
     createdAt: String
 }
 
+type UserData {
+    user_id: String!
+    contact_details: ContactDetails
+    contacts: UserDataContactGroup
+}
+
 type ContactDetails {
     first_name: String!
     last_name: String!
@@ -27,16 +33,38 @@ type Capabilities {
 }
 
 type ContactGroup {
-    aioms_id: String
+    aioms_ids: [AiomsIds]
     main: ContactCard
 }
 
+type UserDataContactGroup {
+    main: UserDataContactCard
+}
+
+type AiomsIds {
+    org_name: String
+    aioms_id: String
+}
+
 type ContactCard implements MainContact {
-    name: String
+    contact_type: String
     address: ContactAddress
     email_address: String
     phone: String
     website: String
+    extras: ContactExtras
+}
+
+type ContactExtras {
+    emails: [String]
+    phones: [String]
+}
+
+type UserDataContactCard {
+    contact_type: String
+    address: ContactAddress
+    website: String
+    extras: ContactExtras
 }
 
 type ContactAddress implements Address {
@@ -66,6 +94,22 @@ input ContactUpdateInputs {
     register: Boolean = false
 }
 
+input UserDataInputs {
+    contact_details: ContactDetailsInput
+    contacts: UserDataContactInput
+}
+
+input UserDataContactInput {
+    main: MainUserDataContactInput
+}
+
+input MainUserDataContactInput {
+    contact_type: String
+    address: AddressInput
+    website: String
+    extras: ExtraInput
+}
+
 input ContactRolesInput {
     name: String!
     title: String
@@ -84,15 +128,22 @@ input ContactDetailsInput {
 }
 
 extend input ContactInput {
+    aioms_ids: [AiomsIdsInput]
+}
+
+input AiomsIdsInput {
+    org_name: String = "Default"
     aioms_id: String
 }
 
 extend type Mutation {
     createContact(org_id: String!, datas: ContactInputs!): Contact
     updateContact(contact_id: String!, datas: ContactUpdateInputs!): Contact
+    updateUserData(user_id: String!, datas: UserDataInputs!): UserData
 }
 
 extend type Query {
     getContact(contact_id: String!): Contact
     getContacts(org_id: String!): [Contact]
+    getUserData(user_id: String!): UserData
 }

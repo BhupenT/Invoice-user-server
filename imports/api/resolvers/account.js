@@ -1,4 +1,5 @@
 import UsersAccount from './accounts/users'
+import UserData from './accounts/users-data'
 import Validator from '../../startup/server/validation';
 
 const AccountsResolvers = {
@@ -32,6 +33,13 @@ const AccountsResolvers = {
 
             return UsersAccount.UpdateUser(_id, _datas);
 
+        },
+
+        updateUserData(parent, {user_id, datas}, context, {fieldName}) {
+
+            Validator.Empty({user_id: user_id})
+            
+            return UserData.UpdateUserData(user_id, datas);
         }
         
     },
@@ -44,6 +52,13 @@ const AccountsResolvers = {
 
             return UsersAccount.GetUser(_id);
 
+        },
+
+        getUserData(parent, {user_id}, context, {fieldName}) {
+
+            Validator.Empty({user_id: user_id});
+
+            return UserData.GetUserData(user_id);
         }
     }
 };

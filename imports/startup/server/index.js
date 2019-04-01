@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor'
 import { ApolloServer } from 'apollo-server-express'
 import { WebApp } from 'meteor/webapp'
 import bodyParser from 'body-parser'
@@ -10,7 +9,9 @@ import CommonTypeSchema from '../../api/schema/common-types.graphql'
 import AccountsSchema from '../../api/schema/accounts/account.graphql'
 import OrganisationSchema from '../../api/schema/organisations/organisation.graphql'
 import ContactsSchema from '../../api/schema/accounts/contact.graphql'
+import CollectionsSchema from '../../api/schema/collections/customgroup.graphql'
 
+import CollectionsResolvers from '../../api/resolvers/collection'
 import AccountsResolvers from '../../api/resolvers/account'
 import OrganisationResolvers from '../../api/resolvers/organisation'
 import ContactsResolvers from '../../api/resolvers/contact'
@@ -32,15 +33,18 @@ const typeDefs = [
     AccountsSchema,
     OrganisationSchema,
     CommonInputSchema,
-    ContactsSchema
-
+    ContactsSchema,
+    CollectionsSchema
 ];
 
-const resolvers = merge(AccountsResolvers, OrganisationResolvers, ContactsResolvers);
+const resolvers = merge(AccountsResolvers, OrganisationResolvers, ContactsResolvers, CollectionsResolvers);
 
 const schema = makeExecutableSchema( {
     typeDefs,
     resolvers,
+    resolverValidationOptions: {
+		requireResolversForResolveType: false,
+	},
 });
 
 const server = new ApolloServer({ 

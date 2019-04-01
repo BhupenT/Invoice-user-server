@@ -3,7 +3,7 @@ input ContactInput {
 }
 
 input MainContactInput {
-    name: String
+    contact_type: String
     address: AddressInput
     email_address: String!
     phone: String

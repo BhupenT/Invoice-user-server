@@ -21,12 +21,12 @@ type OrgContactGroup {
 }
 
 type OrgContact implements MainContact {
-    name: String
+    contact_type: String
     email_address: String
     phone: String
     website: String
     address: OrgAddress
-    extras: Extras
+    extras: OrgContactExtras
 }
 
 type OrgAddress implements Address {
@@ -38,7 +38,7 @@ type OrgAddress implements Address {
     custom_group: String
 }
 
-type Extras {
+type OrgContactExtras {
     emails: [String]
     phones: [String]
 }

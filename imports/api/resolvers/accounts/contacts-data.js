@@ -63,13 +63,19 @@ const ContactsData = {
             User = UsersAccount.RegisterUser(email, phone);
             // Send Email to activate the account
 
-            UsersData.upsert({'contacts.main.email_address': email}, {$set: datas}); // Registered users own userdata collection
+            let userData = { // Filter and prepare userData obj
+                contact_details: {
+                    first_name: datas.contact_details.first_name,
+                    last_name: datas.contact_details.last_name
+                }
+            }
+            UsersData.upsert({user_id: User._id}, {$set: userData}); // Registered users own userdata collection
 
             return ContactsData.insertContactData(org_id, User._id, datas, insertDatas);
 
         }
 
-        return ContactsDatas.insertUserData(org_id, User._id, datas);
+        return ContactsData.insertContactData(org_id, User._id, datas, insertDatas);
 
     },
 
@@ -85,8 +91,13 @@ const ContactsData = {
         }
 
         let result = {'numberAffected': 0};
+        let test = false;
 
-        if(typeof vendors !== 'undefined' && checkValue(vendors, orgId) === false) {
+        if(typeof vendors !== 'undefined') {
+            test = checkValue(vendors, orgId);
+        }
+
+        if(test === false) {
             result = Users.upsert(UserId, {
                 $push: {
                     vendors: { _id: orgId, status: 'pending' }

@@ -1,5 +1,5 @@
 interface MainContact {
-    name: String
+    contact_type: String
     email_address: String
     phone: String
     website: String

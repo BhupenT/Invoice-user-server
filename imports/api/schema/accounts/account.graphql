@@ -23,7 +23,7 @@ type Subscription {
     collection: String
 }
 
-input UserDatas {
+input UserInfo {
     username: String
     emails: String
     phone: String
@@ -31,7 +31,7 @@ input UserDatas {
 
 type Mutation {
     registerUser(email: String!, pass: String!, phone: String = null): User
-    updateUser(_id: String!, datas: UserDatas!): User
+    updateUser(_id: String!, datas: UserInfo!): User
 }
 
 type Query {
