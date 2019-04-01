@@ -1,5 +1,5 @@
-import Organisation from './organisations/organisation-datas'
-import Validator from '../../startup/server/validation';
+import Organisation from './organisation-datas'
+import Validator from '../../../startup/server/validation';
 
 export default {
 

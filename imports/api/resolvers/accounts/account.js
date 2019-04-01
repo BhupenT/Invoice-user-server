@@ -1,6 +1,6 @@
-import UsersAccount from './accounts/users'
-import UserData from './accounts/users-data'
-import Validator from '../../startup/server/validation';
+import UsersAccount from './users'
+import UserData from './users-data'
+import Validator from '../../../startup/server/validation';
 
 const AccountsResolvers = {
     

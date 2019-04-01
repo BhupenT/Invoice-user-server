@@ -2,22 +2,11 @@ import { ApolloServer } from 'apollo-server-express'
 import { WebApp } from 'meteor/webapp'
 import bodyParser from 'body-parser'
 import { makeExecutableSchema } from 'graphql-tools'
-import merge from 'lodash/merge'
 
-import CommonInputSchema from '../../api/schema/common-input-types.graphql'
-import CommonTypeSchema from '../../api/schema/common-types.graphql'
-import AccountsSchema from '../../api/schema/accounts/account.graphql'
-import OrganisationSchema from '../../api/schema/organisations/organisation.graphql'
-import ContactsSchema from '../../api/schema/accounts/contact.graphql'
-import CollectionsSchema from '../../api/schema/collections/customgroup.graphql'
-
-import CollectionsResolvers from '../../api/resolvers/collection'
-import AccountsResolvers from '../../api/resolvers/account'
-import OrganisationResolvers from '../../api/resolvers/organisation'
-import ContactsResolvers from '../../api/resolvers/contact'
+import { Resolvers } from '../../api/resolvers/resolvers'
+import { Schemas } from '../../api/schemas/schemas'
 
 import {Accounts} from 'meteor/accounts-base'
-///
 
 /*let user = Accounts.findUserByEmail('hello@hi.co');
 let result = Accounts._checkPassword(user , '1234');
@@ -27,21 +16,9 @@ if(result.error) {
     console.log(result);
 }*/
 
-
-const typeDefs = [
-    CommonTypeSchema,
-    AccountsSchema,
-    OrganisationSchema,
-    CommonInputSchema,
-    ContactsSchema,
-    CollectionsSchema
-];
-
-const resolvers = merge(AccountsResolvers, OrganisationResolvers, ContactsResolvers, CollectionsResolvers);
-
 const schema = makeExecutableSchema( {
-    typeDefs,
-    resolvers,
+    typeDefs : Schemas,
+    resolvers: Resolvers,
     resolverValidationOptions: {
 		requireResolversForResolveType: false,
 	},

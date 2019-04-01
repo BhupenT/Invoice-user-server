@@ -1,5 +1,5 @@
-import Validator from '../../startup/server/validation';
-import ContactsData from './accounts/contacts-data'
+import Validator from '../../../startup/server/validation';
+import ContactsData from './contacts-data'
 
 const ContactsResolvers = {
     
