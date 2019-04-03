@@ -1,48 +1,90 @@
+import Validator from '../../../startup/server/validation';
+import Groups from './group';
+
+
 const CollectionResolvers = {
-    CustomData: {
-        __resolveType(obj, context, info){
-            console.log(obj);
 
-            if(obj.field) {
-                return 'CustomString'
-            }
+    Mutation: {
 
-            if(obj.value){
-                return 'CustomNumber';
-            }
+        createCustomGroup(parent, {org_id, datas}, context, {fieldName}) {
 
-            return null;
-        }
+            /* Validate Empty rules
+             */
+            let _datas = datas;
+            _datas['org_id'] = org_id;
+
+            Validator.CustomGroup(_datas);
+
+            return Groups.CreateCustomGroup(org_id, datas);
+
+        },
+
+        updateCustomGroup(parent, {_id, datas}, context, {fieldName}) {
+
+            /* Validate Empty rules
+             */
+            let _datas = datas;
+            _datas['_id'] = _id;
+            Validator.CustomGroup(_datas);
+
+            return Groups.UpdateCustomGroup(_id, datas);
+        },
+
+        addCategory(parent, {org_id, datas}, context, {fieldName}) {
+
+            /* Validate Empty rules
+             */
+            let _datas = {org_id: org_id, category_name: datas.name, module_id: datas.module_id};
+            Validator.Empty(_datas);
+
+            return Groups.AddCategory(org_id, datas);
             
+        },
+
+        updateCategory(parent, {_id, datas}, context, {fieldName}) {
+
+            /* Validate Empty rules
+             */
+            let _datas = {_id: _id, category_name: datas.name, module_id: datas.module_id};
+            Validator.Empty(_datas);
+
+            return Groups.UpdateCategory(_id, datas);
+        }
+
     },
 
     Query: {
         
-        getCustomGroup(parent, {_id, org_id}, context, {fieldName}) {
+        getCustomGroup(parent, {_id}, context, {fieldName}) {
 
-            console.log(_id, org_id);
-            const Group = {
-                _id: 'ladjfljl',
-                title: 'My Title',
-                datas: [
-                    {
-                        name: 'Address',
-                        field: '1-3 Mary Street'
-                    },
-                    {
-                        name: 'State',
-                        field: 'NSW'
+            Validator.Empty({_id: _id});
 
-                    },
-                    {
-                        name: 'Zip Code',
-                        value: 2141
-                    }
-                ]
-            }
+            return Groups.GetCustomGroup(_id);
 
-            return Group;
 
+        },
+
+        getCustomGroups(parent, {org_id}, context, {fieldName}) {
+
+            Validator.Empty({org_id: org_id});
+
+            return Groups.GetCustomGroups(org_id);
+
+        },
+
+        getCategory(parent, {_id}, context, {fieldName}) {
+
+            Validator.Empty({_id: _id});
+
+            return Groups.GetCategory(_id);
+
+        },
+
+        getCustomGroups(parent, {org_id}, context, {fieldName}) {
+
+            Validator.Empty({org_id: org_id});
+
+            return Groups.GetCategories(org_id);
         }
     }
 

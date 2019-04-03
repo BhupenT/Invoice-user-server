@@ -1,23 +1,67 @@
-union CustomData = CustomNumber | CustomString
+scalar StringIntFloat
 
 type CustomGroup {
     _id: String!
     org_id: String!
     template_id: String
+    title: String
+    datas: [CustomGroupData]
+    categories: [Categories]
+    module_id: String
+}
+
+type CustomGroupData {
+    name: String
+    value: StringIntFloat
+}
+
+type Category {
+    _id: String!
+    org_id: String!
+    name: String
+    desc: String
+    module_id: String
+}
+
+type Categories {
+    _id: String!
+    name: String!
+}
+
+input CustomGroupInput {
+    template_id: String
     title: String!
-    datas: [CustomData]
+    datas: [CustomGroupDataInput]
+    categories: [CategoriesInput]
+    module_id: String!
 }
 
-type CustomNumber {
-    name: String
-    value: Int
+input CustomGroupDataInput {
+    name: String!
+    value: StringIntFloat!
 }
 
-type CustomString {
-    name: String
-    field: String
+input CategoriesInput {
+    _id: String!
+    name: String!
+}
+
+input CategoryInput {
+    name: String!
+    desc: String
+    module_id: String!
 }
 
 extend type Query {
-    getCustomGroup(_id: String!, org_id: String!): CustomGroup
+    getCustomGroup(_id: String!): CustomGroup
+    getCustomGroups(org_id: String!): [CustomGroup]
+    getCategory(_id: String!): Category
+    getCategories(org_id: String!): [Category]
+}
+
+extend type Mutation {
+    createCustomGroup(org_id: String!, datas: CustomGroupInput!): CustomGroup
+    updateCustomGroup(_id: String!, datas: CustomGroupInput!): CustomGroup
+    addCategory(org_id: String!, datas: CategoryInput!): Category
+    updateCategory(_id: String!, datas: CategoryInput!): Category
 }

@@ -34,7 +34,7 @@ const Validator =  {
 
             }else{
 
-                let result = isEmpty(object[key], options);
+                let result = isEmpty(object[key].toString(), options);
                     
                 if(throwError === false) {
                     endObj[key] = result;
@@ -72,6 +72,63 @@ const Validator =  {
                 Validator.Email(_email);
             }
         }
+    },
+
+    CustomGroup(datas) {
+        
+        let _datas = {
+            title: datas.title,
+            module_id: datas.module_id
+        }
+
+        if(datas.org_id !== undefined) {
+            _datas.org_id = datas.org_id;
+        }
+
+        if(datas._id !== undefined) {
+            _datas._id = datas._id;
+        }
+
+        Validator.Empty(_datas);
+
+        
+        if(datas.categories !== undefined) {
+            let categories = datas.categories;
+            Validator.ArrayEmpty(categories);
+        }
+
+        if(datas.datas !== undefined) {
+            let customDatas = datas.datas;
+            Validator.ArrayEmpty(customDatas);
+        }
+
+    },
+
+    ArrayEmpty(Array, throwError = true, endObj = {}) {
+
+        Array.forEach(element => {
+            
+            let _match = Match.test(element, Object);
+
+            if(_match === true) {
+
+                endObj = Validator.Empty(element, throwError);
+
+            }else{
+
+                let result = isEmpty(element.toString(), options);
+                if(result === true && throwError === true) {
+                    throw new UserInputError(`${element} cannot be empty!`);
+                }
+                endObj[element] = result;
+            }
+
+        });
+
+        if(throwError === false) {
+            return endObj;
+        }
+
     }
 
 }
