@@ -1,3 +1,35 @@
-**private folder**
+# Project Meteor Setup Dev
 
-All files inside a top-level directory called `private/` are only accessible from server code and can be loaded via the [`Assets`](http://docs.meteor.com/#/full/assets_getText) API. This can be used for private data files and any files that are in your project directory that you don't want to be accessible from the outside.
+### Installing
+
+First have node 11.10^ version installed and install Meteor properly:
+
+```
+curl https://install.meteor.com/ | sh
+```
+
+And npm install after going to the directory
+
+```
+meteor npm install
+```
+
+## Running in the local prototype
+
+```
+meteor run #dev mode
+```
+
+```
+meteor run --production # mimicks production app
+```
+
+## Built With
+
+* [Meteor](https://www.meteor.com) - The framework used
+
+## Versioning
+
+## Authors
+
+* **Bhupendra Tamang** - *Initial start work* - [BhupenT](https://github.com/BhupenT)
